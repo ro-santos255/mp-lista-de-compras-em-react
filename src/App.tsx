@@ -57,6 +57,24 @@ export default function App() {
     formEl.reset();
     inputRef.current && inputRef.current.focus();
   }
+
+  function handleClickComplete(id: string) {
+    // Preciso pegar o ID
+    const newItems = items.map((item) => {
+      if (item.id === id) {
+        item.checked = !item.checked;
+      }
+      return item;
+    })
+
+    // Novo estado
+    setItems(newItems);
+  }
+
+  function handleClickDelete(id: string) {
+    const newItems = items.filter((item) => item.id !== id);
+    setItems(newItems);
+  }
   return (
     <main className="max-w-2xl px-6 py-12 pb-20 mx-auto my-10 bg-white md:my-20 md:px-32 md:rounded-3xl">
       <header className="text-center">
@@ -99,7 +117,7 @@ export default function App() {
       </form>
       <section className="mt-10 space-y-3 ">
         {notCompletedItems.map((item) => (
-          <Item key={item.id} item={item} />
+          <Item handleClickComplete={handleClickComplete} handleClickDelete={handleClickDelete} key={item.id} item={item} />
         ))}
       </section>
       <section className="mt-16 space-y-3">
@@ -107,7 +125,7 @@ export default function App() {
           Itens já comprados
         </h2>
         {completedItems.map((item) => (
-          <Item key={item.id} item={item} />
+          <Item handleClickComplete={handleClickComplete} handleClickDelete={handleClickDelete} key={item.id} item={item} />
         ))}
       </section>
     </main>
